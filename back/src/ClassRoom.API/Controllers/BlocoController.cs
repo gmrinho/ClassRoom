@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using ClassRoom.API.Models;
+using ClassRoom.API.Data;
 
 namespace ClassRoom.API.Controllers
 {
@@ -12,40 +13,24 @@ namespace ClassRoom.API.Controllers
     [Route("api/[controller]")]   
     public class BlocoController : ControllerBase
     {
-    public IEnumerable<Bloco> _bloco = new Bloco[] 
+
+    private readonly DataContext _context;
+    public BlocoController(DataContext context)
     {
-        new Bloco()
-        {
-          BlocoId = 1,
-          Nome = "Bloco 1",
-          StatusBloco = "Ativo",
-          Local = "Próximo ao Refeitório",
-          ImageURL = "Foto da peste do bloco.jpg"
-        },
-        new Bloco()
-        {
-          BlocoId = 2,
-          Nome = "Bloco 2",
-          StatusBloco = "Em reforma",
-          Local = "Próximo ao Naaf",
-          ImageURL = "Foto da peste do bloco.jpg" 
-        }     
-    };
-    public BlocoController()
-    {
+            _context = context;
 
     }  
     
     [HttpGet]
     public IEnumerable<Bloco> Get()
     {
-      return _bloco;
+      return _context.Blocos;
     }
 
     [HttpGet("{id}")]
-    public IEnumerable<Bloco> GetById(int id)
+    public Bloco GetById(int id)
     {
-      return _bloco.Where(bloco => bloco.BlocoId == id);
+      return _context.Blocos.FirstOrDefault(bloco => bloco.BlocoId == id);
     }
 
     [HttpPost]
