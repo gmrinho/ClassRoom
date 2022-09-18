@@ -2,7 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using ClassRoom.API.Data;
+using ClassRoom.Application.Contratos;
+using ClassRoom.Application;
+using ClassRoom.Persistence;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -28,10 +30,16 @@ namespace ClassRoom.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<DataContext>(
+            services.AddDbContext<ClassRoomContext>(
                 context => context.UseSqlite(Configuration.GetConnectionString("Defalt"))
             );
-            services.AddControllers();
+            services.AddControllers()
+                .AddNewtonsoftJson(x=> x.SerializerSettings.ReferenceLoopHandling = 
+                    Newtonsoft.Json.ReferenceLoopHandling.Ignore
+                );           
+        services.AddScoped<IBlocoService, BlocoService>();
+            services.AddScoped<IGeralPersist, GeralPersist>();
+            services.AddScoped<IBlocoPersist, BlocoPersist>();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "ClassRoom.API", Version = "v1" });
