@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ClassRoom.Persistence.Migrations
 {
     [DbContext(typeof(ClassRoomContext))]
-    [Migration("20220917221752_Initial")]
+    [Migration("20220919190841_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -34,6 +34,9 @@ namespace ClassRoom.Persistence.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Nome")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("NomeProfessor")
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
@@ -66,46 +69,6 @@ namespace ClassRoom.Persistence.Migrations
                     b.ToTable("Blocos");
                 });
 
-            modelBuilder.Entity("ClassRoom.Domain.Professor", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int?>("BlocoId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Email")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Nome")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Telefone")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("BlocoId");
-
-                    b.ToTable("Professores");
-                });
-
-            modelBuilder.Entity("ClassRoom.Domain.ProfessorBloco", b =>
-                {
-                    b.Property<int>("BlocoId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("ProfessorId")
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("BlocoId", "ProfessorId");
-
-                    b.HasIndex("ProfessorId");
-
-                    b.ToTable("ProfessorBlocos");
-                });
-
             modelBuilder.Entity("ClassRoom.Domain.Aula", b =>
                 {
                     b.HasOne("ClassRoom.Domain.Bloco", "Bloco")
@@ -117,44 +80,9 @@ namespace ClassRoom.Persistence.Migrations
                     b.Navigation("Bloco");
                 });
 
-            modelBuilder.Entity("ClassRoom.Domain.Professor", b =>
-                {
-                    b.HasOne("ClassRoom.Domain.Bloco", null)
-                        .WithMany("Professores")
-                        .HasForeignKey("BlocoId");
-                });
-
-            modelBuilder.Entity("ClassRoom.Domain.ProfessorBloco", b =>
-                {
-                    b.HasOne("ClassRoom.Domain.Bloco", "Bloco")
-                        .WithMany("ProfessorBlocos")
-                        .HasForeignKey("BlocoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ClassRoom.Domain.Professor", "Professor")
-                        .WithMany("ProfessorBlocos")
-                        .HasForeignKey("ProfessorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Bloco");
-
-                    b.Navigation("Professor");
-                });
-
             modelBuilder.Entity("ClassRoom.Domain.Bloco", b =>
                 {
                     b.Navigation("Aulas");
-
-                    b.Navigation("ProfessorBlocos");
-
-                    b.Navigation("Professores");
-                });
-
-            modelBuilder.Entity("ClassRoom.Domain.Professor", b =>
-                {
-                    b.Navigation("ProfessorBlocos");
                 });
 #pragma warning restore 612, 618
         }

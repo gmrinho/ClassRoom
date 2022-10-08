@@ -1,6 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using ClassRoom.Application.Contratos;
 using ClassRoom.Domain;
@@ -24,7 +22,7 @@ namespace ClassRoom.Application
                  _geralPersist.Add<Bloco>(model);
                  if ( await _geralPersist.SaveChangesAsync())
                  {
-                     return await _blocoPersist.GetAllBlocoByIdAsync(model.Id, false);
+                     return await _blocoPersist.GetAllBlocoByIdAsync(model.Id);
                  }
                  return null;
             }
@@ -38,7 +36,7 @@ namespace ClassRoom.Application
         {
            try
            {
-                var bloco = await _blocoPersist.GetAllBlocoByIdAsync(blocoId, false);
+                var bloco = await _blocoPersist.GetAllBlocoByIdAsync(blocoId);
                 if (bloco == null) return null;
                 
                 model.Id = bloco.Id;
@@ -46,7 +44,7 @@ namespace ClassRoom.Application
                 _geralPersist.Update(model);
                 if ( await _geralPersist.SaveChangesAsync())
                  {
-                     return await _blocoPersist.GetAllBlocoByIdAsync(model.Id, false);
+                     return await _blocoPersist.GetAllBlocoByIdAsync(model.Id);
                  }
                  return null;
            }
@@ -61,7 +59,7 @@ namespace ClassRoom.Application
         {
             try
            {
-                var bloco = await _blocoPersist.GetAllBlocoByIdAsync(blocoId, false);
+                var bloco = await _blocoPersist.GetAllBlocoByIdAsync(blocoId);
                 if (bloco == null) throw new Exception("O bloco para delete não foi encontrato");
                    
                 _geralPersist.Delete<Bloco>(bloco);
@@ -75,11 +73,11 @@ namespace ClassRoom.Application
            } 
         }
 
-        public async Task<Bloco> GetAllBlocoByIdAsync(int blocoId, bool includeProfessores = false)
+        public async Task<Bloco> GetAllBlocoByIdAsync(int blocoId)
         {
             try
             {
-                var blocos = await _blocoPersist.GetAllBlocoByIdAsync(blocoId, includeProfessores);
+                var blocos = await _blocoPersist.GetAllBlocoByIdAsync(blocoId);
                 if(blocos == null) return null;
                 return blocos;
             }
@@ -91,11 +89,11 @@ namespace ClassRoom.Application
             }
         }
 
-        public async Task<Bloco[]> GetAllBlocosAsync(bool includeProfessores = false)
+        public async Task<Bloco[]> GetAllBlocosAsync()
         {
             try
             {
-                var blocos = await _blocoPersist.GetAllBlocosAsync(includeProfessores);
+                var blocos = await _blocoPersist.GetAllBlocosAsync();
                 if(blocos == null) return null;
                 return blocos;
             }
@@ -107,11 +105,11 @@ namespace ClassRoom.Application
             }
         }
 
-        public async Task<Bloco[]> GetAllBlocosByNomeAsync(string nome, bool includeProfessores = false)
+        public async Task<Bloco[]> GetAllBlocosByNomeAsync(string nome)
         {
              try
             {
-                var blocos = await _blocoPersist.GetAllBlocosByNomeAsync(nome, includeProfessores);
+                var blocos = await _blocoPersist.GetAllBlocosByNomeAsync(nome);
                 if(blocos == null) return null;
                 return blocos;
             }

@@ -9,8 +9,6 @@ namespace ClassRoom.Domain
         public string StatusBloco { get; set; }
         public string Local { get; set; }
         public string ImageURL { get; set; }
-        public IEnumerable<Aula> Aulas { get; set; }
-        public IEnumerable<Professor> Professores { get; set; }
-        public IEnumerable <ProfessorBloco> ProfessorBlocos { get; set; }
+        public IEnumerable<Aula> Aulas { get; set; }      
     }
 }

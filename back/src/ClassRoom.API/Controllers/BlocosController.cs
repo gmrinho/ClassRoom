@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using ClassRoom.Domain;
-using ClassRoom.Persistence;
 using ClassRoom.Application.Contratos;
 using Microsoft.AspNetCore.Http;
 
@@ -27,7 +23,7 @@ namespace ClassRoom.API.Controllers
     {
       try
       {
-          var blocos = await _blocoService.GetAllBlocosAsync(true);
+          var blocos = await _blocoService.GetAllBlocosAsync();
           if(blocos == null) return NotFound("Nenhum bloco encontrado.");
           return Ok(blocos);
       }
@@ -44,7 +40,7 @@ namespace ClassRoom.API.Controllers
     {
       try
       {
-          var bloco = await _blocoService.GetAllBlocoByIdAsync(id, true);
+          var bloco = await _blocoService.GetAllBlocoByIdAsync(id);
           if(bloco == null) return NotFound("Bloco por Id encontrado.");
           return Ok(bloco);
       }
@@ -56,12 +52,12 @@ namespace ClassRoom.API.Controllers
       }
     }
 
-     [HttpGet("{nome}/tema")]
+     [HttpGet("{nome}/nome")]
     public async Task<IActionResult> GetByNome(string nome)
     {
       try
       {
-          var bloco = await _blocoService.GetAllBlocosByNomeAsync(nome, true);
+          var bloco = await _blocoService.GetAllBlocosByNomeAsync(nome);
           if(bloco == null) return NotFound("Blocos por nome não encontrados.");
           return Ok(bloco);
       }
@@ -79,7 +75,7 @@ namespace ClassRoom.API.Controllers
       try
       {
           var bloco = await _blocoService.AddBlocos(model);
-          if(bloco == null) return BadRequest("Erro ao adicionar  o bloco.");
+          if(bloco == null) return BadRequest("Erro ao adicionar o bloco.");
           return Ok(bloco);
       }
       catch (Exception ex)
