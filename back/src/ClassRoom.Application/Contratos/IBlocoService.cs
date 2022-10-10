@@ -1,16 +1,16 @@
 using System.Threading.Tasks;
-using ClassRoom.Domain;
+using ClassRoom.Application.Dtos;
 
 namespace ClassRoom.Application.Contratos
 {
     public interface IBlocoService
     {
-        Task<Bloco> AddBlocos(Bloco model); 
-        Task<Bloco>UpdateBloco(int blocoId, Bloco model); 
+        Task<BlocoDto> AddBlocos(BlocoDto model); 
+        Task<BlocoDto>UpdateBloco(int blocoId, BlocoDto model); 
         Task<bool> DeleteBloco(int blocoId);
         
-        Task<Bloco[]> GetAllBlocosAsync();
-        Task<Bloco[]> GetAllBlocosByNomeAsync(string nome);
-        Task<Bloco> GetAllBlocoByIdAsync(int blocoId);    
+        Task<BlocoDto[]> GetAllBlocosAsync();
+        Task<BlocoDto[]> GetAllBlocosByNomeAsync(string nome);
+        Task<BlocoDto> GetAllBlocoByIdAsync(int blocoId);    
     }
 }

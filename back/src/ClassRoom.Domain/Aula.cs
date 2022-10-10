@@ -1,9 +1,13 @@
 using System;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ClassRoom.Domain
 {
+    [Table("Aulas")]
     public class Aula
-    {
+    {  
+
         public int Id { get; set; }
         public string Nome { get; set; }
         public string Curso { get; set; }

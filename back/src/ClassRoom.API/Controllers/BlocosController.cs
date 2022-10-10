@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using ClassRoom.Domain;
+
 using ClassRoom.Application.Contratos;
 using Microsoft.AspNetCore.Http;
+using ClassRoom.Application.Dtos;
+using System.Collections.Generic;
+
 
 namespace ClassRoom.API.Controllers
 {
@@ -24,7 +27,8 @@ namespace ClassRoom.API.Controllers
       try
       {
           var blocos = await _blocoService.GetAllBlocosAsync();
-          if(blocos == null) return NotFound("Nenhum bloco encontrado.");
+          if(blocos == null) return NoContent();
+
           return Ok(blocos);
       }
       catch (Exception ex)
@@ -39,9 +43,10 @@ namespace ClassRoom.API.Controllers
     public async Task<IActionResult> GetById(int id)
     {
       try
-      {
+      {  
           var bloco = await _blocoService.GetAllBlocoByIdAsync(id);
-          if(bloco == null) return NotFound("Bloco por Id encontrado.");
+          if(bloco == null) return NoContent();
+
           return Ok(bloco);
       }
       catch (Exception ex)
@@ -58,7 +63,8 @@ namespace ClassRoom.API.Controllers
       try
       {
           var bloco = await _blocoService.GetAllBlocosByNomeAsync(nome);
-          if(bloco == null) return NotFound("Blocos por nome não encontrados.");
+          if(bloco == null) return NoContent();
+
           return Ok(bloco);
       }
       catch (Exception ex)
@@ -70,12 +76,13 @@ namespace ClassRoom.API.Controllers
     }
 
     [HttpPost]
-    public async Task<IActionResult> Post(Bloco model)
+    public async Task<IActionResult> Post(BlocoDto model)
     {
       try
       {
           var bloco = await _blocoService.AddBlocos(model);
-          if(bloco == null) return BadRequest("Erro ao adicionar o bloco.");
+          if(bloco == null) return NoContent();
+
           return Ok(bloco);
       }
       catch (Exception ex)
@@ -87,13 +94,14 @@ namespace ClassRoom.API.Controllers
     }
 
     [HttpPut("{id}")]
-    public async Task<IActionResult> Put(int id, Bloco model)
+    public async Task<IActionResult> Put(int id, BlocoDto model)
     {
          {
       try
       {
           var bloco = await _blocoService.UpdateBloco(id, model);
-          if(bloco == null) return BadRequest("Erro ao adicionar  o bloco.");
+          if(bloco == null) return NoContent();
+
           return Ok(bloco);
       }
       catch (Exception ex)
@@ -109,14 +117,15 @@ namespace ClassRoom.API.Controllers
     {
       try
       {
-        if(await _blocoService.DeleteBloco(id))       
-          return Ok("Deletado");        
-        else      
-          return BadRequest("Bloco não deletado");       
+        var bloco = await _blocoService.GetAllBlocoByIdAsync(id);
+        if(bloco == null) return NoContent();       
+
+        return await _blocoService.DeleteBloco(id) ?
+            Ok("Deletado") :
+            throw new Exception("Deu ruim");
       }
       catch (Exception ex)
-      {
-          
+      {         
           return this.StatusCode(StatusCodes.Status500InternalServerError, 
           $"Erro ao tentar deletar blocos. Erro {ex.Message}");
       }

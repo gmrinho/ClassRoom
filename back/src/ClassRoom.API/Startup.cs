@@ -15,6 +15,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using AutoMapper;
 
 namespace ClassRoom.API
 {
@@ -36,7 +37,9 @@ namespace ClassRoom.API
             services.AddControllers()
                 .AddNewtonsoftJson(x=> x.SerializerSettings.ReferenceLoopHandling = 
                     Newtonsoft.Json.ReferenceLoopHandling.Ignore
-                );           
+                );
+        services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
         services.AddScoped<IBlocoService, BlocoService>();
             services.AddScoped<IGeralPersist, GeralPersist>();
             services.AddScoped<IBlocoPersist, BlocoPersist>();
