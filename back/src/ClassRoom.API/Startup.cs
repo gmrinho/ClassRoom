@@ -40,9 +40,12 @@ namespace ClassRoom.API
                 );
         services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
-        services.AddScoped<IBlocoService, BlocoService>();
+            services.AddScoped<IAulaService, AulaService>();
+            services.AddScoped<IBlocoService, BlocoService>();
+            
             services.AddScoped<IGeralPersist, GeralPersist>();
             services.AddScoped<IBlocoPersist, BlocoPersist>();
+            services.AddScoped<IAulaPersist, AulaPersist>();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "ClassRoom.API", Version = "v1" });
