@@ -46,6 +46,7 @@ namespace ClassRoom.API
             services.AddScoped<IGeralPersist, GeralPersist>();
             services.AddScoped<IBlocoPersist, BlocoPersist>();
             services.AddScoped<IAulaPersist, AulaPersist>();
+            services.AddCors();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "ClassRoom.API", Version = "v1" });
@@ -67,6 +68,10 @@ namespace ClassRoom.API
             app.UseRouting();
 
             app.UseAuthorization();
+
+            app.UseCors(cors => cors.AllowAnyHeader()
+                                    .AllowAnyMethod()
+                                    .AllowAnyOrigin());
 
             app.UseEndpoints(endpoints =>
             {
