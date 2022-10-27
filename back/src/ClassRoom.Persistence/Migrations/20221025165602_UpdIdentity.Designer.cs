@@ -3,14 +3,16 @@ using System;
 using ClassRoom.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ClassRoom.Persistence.Migrations
 {
     [DbContext(typeof(ClassRoomContext))]
-    partial class ClassRoomContextModelSnapshot : ModelSnapshot
+    [Migration("20221025165602_UpdIdentity")]
+    partial class UpdIdentity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -117,9 +119,6 @@ namespace ClassRoom.Persistence.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<bool>("EmailConfirmed")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("Funcao")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("ImagemURL")

@@ -6,19 +6,25 @@ using ClassRoom.Application.Contratos;
 using Microsoft.AspNetCore.Http;
 using ClassRoom.Application.Dtos;
 using System.Collections.Generic;
-
+using ClassRoom.API.Extensions;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ClassRoom.API.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]   
     public class BlocosController : ControllerBase
     {
 
     private readonly IBlocoService _blocoService;
-    public BlocosController(IBlocoService blocoService)
+    private readonly IAccountService _accountService;
+
+    public BlocosController(IBlocoService blocoService,
+                            IAccountService accountService)
     {
-      _blocoService= blocoService;
+            _blocoService= blocoService;
+            _accountService = accountService;
     }  
     
     [HttpGet]
@@ -26,7 +32,7 @@ namespace ClassRoom.API.Controllers
     {
       try
       {
-          var blocos = await _blocoService.GetAllBlocosAsync();
+          var blocos = await _blocoService.GetAllBlocosAsync(User.GetUserId());
           if(blocos == null) return NoContent();
 
           return Ok(blocos);
@@ -44,7 +50,7 @@ namespace ClassRoom.API.Controllers
     {
       try
       {  
-          var bloco = await _blocoService.GetAllBlocoByIdAsync(id);
+          var bloco = await _blocoService.GetAllBlocoByIdAsync(User.GetUserId(), id);
           if(bloco == null) return NoContent();
 
           return Ok(bloco);
@@ -62,7 +68,7 @@ namespace ClassRoom.API.Controllers
     {
       try
       {
-          var bloco = await _blocoService.GetAllBlocosByNomeAsync(nome);
+          var bloco = await _blocoService.GetAllBlocosByNomeAsync(User.GetUserId(), nome);
           if(bloco == null) return NoContent();
 
           return Ok(bloco);
@@ -80,7 +86,7 @@ namespace ClassRoom.API.Controllers
     {
       try
       {
-          var bloco = await _blocoService.AddBlocos(model);
+          var bloco = await _blocoService.AddBlocos(User.GetUserId(), model);
           if(bloco == null) return NoContent();
 
           return Ok(bloco);
@@ -99,7 +105,7 @@ namespace ClassRoom.API.Controllers
          {
       try
       {
-          var bloco = await _blocoService.UpdateBloco(id, model);
+          var bloco = await _blocoService.UpdateBloco(User.GetUserId(),id, model);
           if(bloco == null) return NoContent();
 
           return Ok(bloco);
@@ -117,10 +123,10 @@ namespace ClassRoom.API.Controllers
     {
       try
       {
-        var bloco = await _blocoService.GetAllBlocoByIdAsync(id);
+        var bloco = await _blocoService.GetAllBlocoByIdAsync(User.GetUserId(), id);
         if(bloco == null) return NoContent();       
 
-        return await _blocoService.DeleteBloco(id) ?
+        return await _blocoService.DeleteBloco(User.GetUserId(), id) ?
             Ok("Deletado") :
             throw new Exception("Deu ruim");
       }

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using ClassRoom.Application.Dtos;
 using ClassRoom.Domain;
+using ClassRoom.Domain.Identity;
 
 namespace ClassRoom.Application.Helpers
 {
@@ -14,6 +15,10 @@ namespace ClassRoom.Application.Helpers
         {
             CreateMap<Bloco, BlocoDto>().ReverseMap();
             CreateMap<Aula, AulaDto>().ReverseMap();
+            
+            CreateMap<User, UserDto>().ReverseMap();
+            CreateMap<User, UserLoginDto>().ReverseMap();
+            CreateMap<User, UserUpdateDto>().ReverseMap();
         }
     }
 }

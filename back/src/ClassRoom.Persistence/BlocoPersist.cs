@@ -11,31 +11,36 @@ namespace ClassRoom.Persistence
         public BlocoPersist(ClassRoomContext context)
         {
             _context = context;
-            //_context.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
+            _context.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
             
         }
-        public async Task<Bloco[]> GetAllBlocosAsync()
+        public async Task<Bloco[]> GetAllBlocosAsync(int userId)
         {
            IQueryable<Bloco> querry = _context.Blocos
                 .Include(b => b.Aulas);
-            querry = querry.AsNoTracking().OrderBy(b => b.Id);
+            querry = querry.AsNoTracking().Where(b => b.UserId == userId).OrderBy(b => b.Id);
 
             return await querry.ToArrayAsync();
         }
 
-        public async Task<Bloco[]> GetAllBlocosByNomeAsync(string nome)
+        public async Task<Bloco[]> GetAllBlocosByNomeAsync(int userId, string nome)
         {
              IQueryable<Bloco> querry = _context.Blocos
-                .Include(b => b.Aulas);       
+                .Include(b => b.Aulas);  
+
+            querry = querry.AsNoTracking().OrderBy(b => b.Id)
+                          .Where(b => b.Nome.ToLower().Contains(nome.ToLower()) && 
+                                      b.UserId == userId);
+                               
             return await querry.ToArrayAsync();
         }
         
-        public async Task<Bloco> GetAllBlocoByIdAsync(int blocoId)
+        public async Task<Bloco> GetAllBlocoByIdAsync(int userId, int blocoId)
         {
             IQueryable<Bloco> querry = _context.Blocos
                 .Include(b => b.Aulas);
             querry = querry.AsNoTracking().OrderBy(b => b.Id)
-                    .Where(b => b.Id == blocoId);
+                    .Where(b => b.Id == blocoId && b.UserId == userId);
 
             return await querry.FirstOrDefaultAsync();
         }

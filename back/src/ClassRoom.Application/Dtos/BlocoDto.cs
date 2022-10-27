@@ -29,6 +29,9 @@ namespace ClassRoom.Application.Dtos
         
         [RegularExpression(@".*\.(gif|jpe?g|bmp|png)$", ErrorMessage ="Não é uma imagem válida. (gif, jpg, jpeg, pmb ou png)")]
         public string ImageURL { get; set; }
+        public int UserId { get; set; }
+
+        public UserDto UserDto { get; set; }
         
         public IEnumerable<AulaDto> Aulas { get; set; }      
     }

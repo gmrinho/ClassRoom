@@ -3,14 +3,16 @@ using System;
 using ClassRoom.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ClassRoom.Persistence.Migrations
 {
     [DbContext(typeof(ClassRoomContext))]
-    partial class ClassRoomContextModelSnapshot : ModelSnapshot
+    [Migration("20221026223432_AddIdentity")]
+    partial class AddIdentity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

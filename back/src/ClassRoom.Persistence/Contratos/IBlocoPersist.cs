@@ -6,8 +6,8 @@ namespace ClassRoom.Persistence
     public interface IBlocoPersist
     {
         //Blocos
-        Task<Bloco[]> GetAllBlocosByNomeAsync(string nome);
-        Task<Bloco[]> GetAllBlocosAsync();
-        Task<Bloco> GetAllBlocoByIdAsync(int blocoId);
+        Task<Bloco[]> GetAllBlocosByNomeAsync(int userId, string nome);
+        Task<Bloco[]> GetAllBlocosAsync(int userId);
+        Task<Bloco> GetAllBlocoByIdAsync(int userId,int blocoId);
     }
 }
