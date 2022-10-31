@@ -3,17 +3,10 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ClassRoom.Persistence.Migrations
 {
-    public partial class UpdateIdentity : Migration
+    public partial class Identity : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AddColumn<int>(
-                name: "UserId",
-                table: "Blocos",
-                type: "INTEGER",
-                nullable: false,
-                defaultValue: 0);
-
             migrationBuilder.CreateTable(
                 name: "AspNetRoles",
                 columns: table => new
@@ -35,8 +28,8 @@ namespace ClassRoom.Persistence.Migrations
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    UserNome = table.Column<string>(type: "TEXT", nullable: true),
-                    UserSobrenome = table.Column<string>(type: "TEXT", nullable: true),
+                    PrimeiroNome = table.Column<string>(type: "TEXT", nullable: true),
+                    UltimoNome = table.Column<string>(type: "TEXT", nullable: true),
                     ImagemURL = table.Column<string>(type: "TEXT", nullable: true),
                     UserName = table.Column<string>(type: "TEXT", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "TEXT", maxLength: 256, nullable: true),
@@ -164,10 +157,51 @@ namespace ClassRoom.Persistence.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.CreateIndex(
-                name: "IX_Blocos_UserId",
-                table: "Blocos",
-                column: "UserId");
+            migrationBuilder.CreateTable(
+                name: "Blocos",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Nome = table.Column<string>(type: "TEXT", nullable: true),
+                    StatusBloco = table.Column<string>(type: "TEXT", nullable: true),
+                    Local = table.Column<string>(type: "TEXT", nullable: true),
+                    ImageURL = table.Column<string>(type: "TEXT", nullable: true),
+                    UserId = table.Column<int>(type: "INTEGER", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Blocos", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Blocos_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Aulas",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Nome = table.Column<string>(type: "TEXT", nullable: true),
+                    Curso = table.Column<string>(type: "TEXT", nullable: true),
+                    DataAula = table.Column<DateTime>(type: "TEXT", nullable: true),
+                    NomeProfessor = table.Column<string>(type: "TEXT", nullable: true),
+                    BlocoId = table.Column<int>(type: "INTEGER", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Aulas", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Aulas_Blocos_BlocoId",
+                        column: x => x.BlocoId,
+                        principalTable: "Blocos",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -206,21 +240,19 @@ namespace ClassRoom.Persistence.Migrations
                 column: "NormalizedUserName",
                 unique: true);
 
-            migrationBuilder.AddForeignKey(
-                name: "FK_Blocos_AspNetUsers_UserId",
+            migrationBuilder.CreateIndex(
+                name: "IX_Aulas_BlocoId",
+                table: "Aulas",
+                column: "BlocoId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Blocos_UserId",
                 table: "Blocos",
-                column: "UserId",
-                principalTable: "AspNetUsers",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Cascade);
+                column: "UserId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropForeignKey(
-                name: "FK_Blocos_AspNetUsers_UserId",
-                table: "Blocos");
-
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
 
@@ -237,18 +269,16 @@ namespace ClassRoom.Persistence.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "Aulas");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
+                name: "Blocos");
+
+            migrationBuilder.DropTable(
                 name: "AspNetUsers");
-
-            migrationBuilder.DropIndex(
-                name: "IX_Blocos_UserId",
-                table: "Blocos");
-
-            migrationBuilder.DropColumn(
-                name: "UserId",
-                table: "Blocos");
         }
     }
 }

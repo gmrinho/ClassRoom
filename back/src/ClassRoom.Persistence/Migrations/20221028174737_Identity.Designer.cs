@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ClassRoom.Persistence.Migrations
 {
     [DbContext(typeof(ClassRoomContext))]
-    [Migration("20221025214009_UpdatIdentity")]
-    partial class UpdatIdentity
+    [Migration("20221028174737_Identity")]
+    partial class Identity
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

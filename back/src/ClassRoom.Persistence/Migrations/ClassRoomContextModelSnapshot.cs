@@ -119,9 +119,6 @@ namespace ClassRoom.Persistence.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("Funcao")
-                        .HasColumnType("INTEGER");
-
                     b.Property<string>("ImagemURL")
                         .HasColumnType("TEXT");
 

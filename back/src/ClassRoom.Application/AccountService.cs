@@ -93,6 +93,7 @@ namespace ClassRoom.Application
                 _mapper.Map(userUpdateDto, user);
                 
                 var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+                
                 var result = await _userManager.ResetPasswordAsync(user, token, userUpdateDto.Password);
 
                 _userPersist.Update<User>(user);

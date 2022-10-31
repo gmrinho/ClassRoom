@@ -101,7 +101,6 @@ namespace ClassRoom.API.Controllers
         }
 
         [HttpPut("UpdateUser")]
-        [AllowAnonymous]
         public async Task<IActionResult> UpdateUser(UserUpdateDto userUpdateDto)
         {
             try

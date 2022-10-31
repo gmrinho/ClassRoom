@@ -14,6 +14,7 @@ namespace ClassRoom.Application.Dtos
         public string Email { get; set; }
         public string PhoneNumber { get; set; }
         public string Password { get; set; }
+        //Não esquece de comentar o "Token', quando for att o banco de dados e as tabelas.
         public string Token { get; set; }
     }
 }
